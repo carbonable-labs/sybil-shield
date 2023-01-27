@@ -1,6 +1,6 @@
 # SybilShield
 <div align="center">
-  <h1>Introducing SybilShield, a solution for detecting and preventing sybil attacks on Starknet blockchain.</h1>
+  <h1>A solution for detecting and preventing sybil attacks on Starknet blockchain.</h1>
   <br />
   <a href="https://github.com/carbonable-labs/sybil-shield/issues/new?assignees=&labels=bug&template=01_BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
   -
