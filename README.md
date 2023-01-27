@@ -1,1 +1,119 @@
-# sybil-shield
+# SybilShield
+<div align="center">
+  <h1>Introducing SybilShield, a solution for detecting and preventing sybil attacks on Starknet blockchain.</h1>
+  <br />
+  <a href="https://github.com/carbonable-labs/sybil-shield/issues/new?assignees=&labels=bug&template=01_BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
+  -
+  <a href="https://github.com/carbonable-labs/sybil-shield/issues/new?assignees=&labels=enhancement&template=02_FEATURE_REQUEST.md&title=feat%3A+">Request a Feature</a>
+  -
+  <a href="https://github.com/carbonable-labs/sybil-shield/discussions">Ask a Question</a>
+</div>
+
+<div align="center">
+<br />
+
+[![GitHub Workflow Status](https://github.com/keep-starknet-strange/garaga/actions/workflows/test.yml/badge.svg)](https://github.com/keep-starknet-strange/garaga/actions/workflows/test.yml)
+[![Project license](https://img.shields.io/github/license/keep-starknet-strange/garaga.svg?style=flat-square)](LICENSE)
+[![Pull Requests welcome](https://img.shields.io/badge/PRs-welcome-ff69b4.svg?style=flat-square)](https://github.com/keep-starknet-strange/garaga/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)
+
+</div>
+
+
+
+## About
+
+Introducing SybilShield, a solution for detecting and preventing sybil attacks on Starknet blockchain. Sybil attacks are a type of fraud in which an attacker creates multiple fake identities or "sybils" to manipulate the network and gain an unfair advantage. 
+
+SybilShield will use on-chain data analysis to detect and identify sybil nodes in real-time, providing a robust defense against this type of attack. The platform also includes a reputation system that allows network participants to rate and report suspicious nodes, further strengthening the network's immunity to sybil attacks. 
+
+SybilShield will be needed to be designed to be easily integrated into existing blockchain protocol, providing an additional layer of security without compromising on scalability or decentralization. 
+
+
+### Links
+- https://github.com/Offsetra/ethereum-emissions-calculator/
+- https://kylemcdonald.github.io/ethereum-emissions/
+
+## Getting Started
+
+### Prerequisites
+
+#### Cairo
+
+
+
+## Roadmap
+
+See the [open issues](https://github.com/carbonable-labs/sybil-shield/issues/issues) for
+a list of proposed features (and known issues).
+
+
+
+## Support
+
+Reach out to the maintainer at one of the following places:
+
+- [GitHub Discussions](https://github.com/carbonable-labs/sybil-shield/issues/discussions)
+
+
+## Project assistance
+
+If you want to say **thank you** or/and support active development:
+
+- Add a [GitHub Star](https://github.com/carbonable-labs/sybil-shield/issues/) to the
+  project.
+- Write interesting articles about the project on [Dev.to](https://dev.to/),
+  [Medium](https://medium.com/) or your personal blog.
+
+Together, we can make SybilShield **better**!
+
+## Contributing
+
+First off, thanks for taking the time to contribute! Contributions are what make
+the open-source community such an amazing place to learn, inspire, and create.
+Any contributions you make will benefit everybody else and are **greatly
+appreciated**.
+
+Please read [our contribution guidelines](docs/CONTRIBUTING.md), and thank you
+for being involved!
+
+## Authors & contributors
+
+For a full list of all authors and contributors, see
+[the contributors page](https://github.com/carbonable-labs/sybil-shield/issues/contributors).
+
+## Security
+
+SybilShield follows good practices of security, but 100% security cannot be assured.
+SybilShield is provided **"as is"** without any **warranty**. Use at your own risk.
+
+_For more information and to report security issues, please refer to our
+[security documentation](docs/SECURITY.md)._
+
+## License
+
+This project is licensed under the **MIT license**.
+
+See [LICENSE](LICENSE) for more information.
+
+## Resources
+
+Here are some interesting resources about pairing-based cryptography:
+
+> **Note:** This list is not exhaustive, and is not intended to be.
+
+
+## Contributors ✨
+
+Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
