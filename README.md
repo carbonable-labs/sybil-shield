@@ -22,22 +22,17 @@
 
 ## About
 
-Introducing SybilShield, a solution for detecting and preventing sybil attacks on Starknet blockchain. Sybil attacks are a type of fraud in which an attacker creates multiple fake identities or "sybils" to manipulate the network and gain an unfair advantage. 
+SybilShield is an open-source project built for the StarkNet ecosystem that utilizes blockchain data to detect Sybil attack behaviors.
 
-SybilShield will use on-chain data analysis to detect and identify sybil nodes in real-time, providing a robust defense against this type of attack. The platform also includes a reputation system that allows network participants to rate and report suspicious nodes, further strengthening the network's immunity to sybil attacks. 
+A Sybil attack is a type of attack where an attacker creates multiple fake identities (also known as Sybil nodes) in a network in order to gain control or disrupt the network's operation.
 
-SybilShield will be needed to be designed to be easily integrated into existing blockchain protocol, providing an additional layer of security without compromising on scalability or decentralization. 
-
-
-### Links
-- https://github.com/Offsetra/ethereum-emissions-calculator/
-- https://kylemcdonald.github.io/ethereum-emissions/
+SybilShield is implemented using Apibara technology to explore on-chain data, allowing it to detect and mitigate Sybil attacks by identifying and isolating fake identities.
 
 ## Getting Started
 
 ### Prerequisites
 
-#### Cairo
+#### Typescript
 
 
 
@@ -97,7 +92,9 @@ See [LICENSE](LICENSE) for more information.
 
 ## Resources
 
-Here are some interesting resources about pairing-based cryptography:
+Here are some interesting resources about detection and mitigation of Sybil attacks:
+
+- [Review on Detection and Mitigation of Sybil Attack in the Network](https://www.sciencedirect.com/science/article/pii/S187705091600082X)
 
 > **Note:** This list is not exhaustive, and is not intended to be.
 
