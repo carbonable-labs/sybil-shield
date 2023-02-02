@@ -5,7 +5,8 @@ description = "Packages for Sybil Detection Software"
 authors = ["Marissa Posner"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.9"
+flask = "^2.2.2"
 
 [tool.poetry.dev-dependencies]
 
