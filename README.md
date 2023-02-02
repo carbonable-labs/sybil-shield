@@ -31,6 +31,20 @@ SybilShield is implemented using Apibara technology to explore on-chain data, al
 
 ## Getting Started
 
+- Install Python version management tool: [pyenv](https://github.com/pyenv/pyenv) or [asdf](https://github.com/asdf-vm/asdf)
+- Install `Python 3.9.14` using the Python version management tool and activate that version
+- Clone this repository
+- Verify the active Python version: `python -V`
+- [Install Poetry](https://python-poetry.org/docs/#installation) — a dependency manager
+- Create Python virtual environment in the project directory: `poetry env use 3.9`
+- Activate environment: `poetry shell`
+- Upgrade pip: `pip install --upgrade pip`
+- Install project dependencies: `poetry install`
+  - MacBook M1/M2: `To define`
+- Verify the setup by running tests: `poetry run test`
+- Export entrypoint: `export FLASK_APP=app`
+- Run the server: `poetry run flask run`
+
 ### Prerequisites
 
 #### Typescript
