@@ -84,33 +84,23 @@ async def main():
 
     (client, stream) = StreamService(channel).stream_data()
 
-    if path.exists():
-
-        filter = (
-            Filter()
-            .with_header(weak=True)
-            .add_event(EventFilter().with_from_address(ether_address).with_keys([transfer_key]))
-            .add_event(EventFilter().with_from_address(usdc_address).with_keys([transfer_key]))
-            .add_event(EventFilter().with_from_address(usdt_address).with_keys([transfer_key]))
-            .add_event(EventFilter().with_from_address(dai_address).with_keys([transfer_key]))
-            .add_event(EventFilter().with_from_address(wbtc_address).with_keys([transfer_key]))
-            .encode()
-        )
-
-    else:
-
-        filter = (
-            Filter()
-            .with_header(weak=True)
-            .add_event(EventFilter().with_from_address(briqs_address).with_keys([transfer_key]))
-            .encode()
-        )
+    filter = (
+        Filter()
+        .with_header(weak=True)
+        .add_event(EventFilter().with_from_address(briqs_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(ether_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(usdc_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(usdt_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(dai_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(wbtc_address).with_keys([transfer_key]))
+        .encode()
+    )
 
     await client.configure(
         filter=filter,
         finality=DataFinality.DATA_STATUS_PENDING,
         batch_size=10,
-        cursor=starknet_cursor(0)
+        cursor=starknet_cursor(START)
     )
 
     block = Block()

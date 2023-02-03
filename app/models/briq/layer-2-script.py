@@ -1,4 +1,5 @@
 import asyncio
+from decimal import Decimal
 import json
 import sys
 from pathlib import Path
@@ -8,8 +9,12 @@ from grpc.aio import secure_channel
 
 from apibara.protocol import StreamService
 from apibara.protocol.proto.stream_pb2 import DataFinality
-from apibara.starknet import Block, EventFilter, Filter, felt, starknet_cursor
+from apibara.starknet import Block, EventFilter, Filter, felt, TransactionFilter, starknet_cursor
+from apibara.starknet.filter import StateUpdateFilter, StorageDiffFilter
 
+ETH_DECIMALS = 18
+
+_DEN = Decimal(10**ETH_DECIMALS)
 
 GRPC_CONFIG = json.dumps(
     {
@@ -28,13 +33,27 @@ GRPC_CONFIG = json.dumps(
 )
 
 
-path = Path("./briq.json")
-data = []
+path = Path("./briq_l2.json")
+
+l2data = []
 if path.exists():
-    with open('briq.json', 'r') as fin:
-        data = json.load(fin)
-START = max([row.get('block') for row in data]) + 1 if data else 0
+    with open(path, 'r') as fin:
+        l2data = json.load(fin)
+START = max([row.get('block') for row in l2data]) + 1 if l2data else 10_708
 print(START)
+
+
+input_path = Path("./briq.json")
+data = []
+if input_path.exists():
+    with open(input_path, 'r') as fin:
+        data = json.load(fin)
+unique_nodes = list(set(tx.get('sender')
+                    for tx in data).union(tx.get('recipient') for tx in data))
+
+
+def to_decimal(amount: int) -> Decimal:
+    return Decimal(amount) / _DEN
 
 
 async def main():
@@ -84,33 +103,22 @@ async def main():
 
     (client, stream) = StreamService(channel).stream_data()
 
-    if path.exists():
-
-        filter = (
-            Filter()
-            .with_header(weak=True)
-            .add_event(EventFilter().with_from_address(ether_address).with_keys([transfer_key]))
-            .add_event(EventFilter().with_from_address(usdc_address).with_keys([transfer_key]))
-            .add_event(EventFilter().with_from_address(usdt_address).with_keys([transfer_key]))
-            .add_event(EventFilter().with_from_address(dai_address).with_keys([transfer_key]))
-            .add_event(EventFilter().with_from_address(wbtc_address).with_keys([transfer_key]))
-            .encode()
-        )
-
-    else:
-
-        filter = (
-            Filter()
-            .with_header(weak=True)
-            .add_event(EventFilter().with_from_address(briqs_address).with_keys([transfer_key]))
-            .encode()
-        )
+    filter = (
+        Filter()
+        .with_header(weak=False)
+        .add_event(EventFilter().with_from_address(ether_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(usdc_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(usdt_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(dai_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(wbtc_address).with_keys([transfer_key]))
+        .encode()
+    )
 
     await client.configure(
         filter=filter,
         finality=DataFinality.DATA_STATUS_PENDING,
         batch_size=10,
-        cursor=starknet_cursor(0)
+        cursor=starknet_cursor(START)
     )
 
     block = Block()
@@ -124,20 +132,24 @@ async def main():
                 block_number = block.header.block_number
                 print(block_number)
 
-                if block_number > 19_560:
+                if block_number > 19_500:
                     sys.exit(1)
 
                 for event_with_tx in block.events:
                     event = event_with_tx.event
+
+                    sender = felt.to_hex(event.data[0])
+                    recipient = felt.to_hex(event.data[1])
+
+                    if (sender not in unique_nodes and recipient not in unique_nodes) or (int(sender, 16) * int(recipient, 16) == 0):
+                        continue
+
                     tx = event_with_tx.transaction
 
                     time = block.header.timestamp.ToSeconds()
                     tx_hash = felt.to_hex(tx.meta.hash)
                     contract = felt.to_hex(event.from_address)
                     contract_name = table.get(contract)
-
-                    sender = felt.to_hex(event.data[0])
-                    recipient = felt.to_hex(event.data[1])
 
                     value = felt.to_int(event.data[2]) + (
                         felt.to_int(event.data[3]) << 128
@@ -156,14 +168,11 @@ async def main():
 
             data = []
             if path.exists():
-                with open('briq.json', 'r') as fin:
+                with open(path, 'r') as fin:
                     data = json.load(fin)
-            with open('briq.json', 'w') as fout:
+            with open(path, 'w') as fout:
                 data.extend(new)
                 json.dump(data, fout, indent=2)
-
-    with open('briq.json', 'r') as fin:
-        data = json.load(fin)
 
 
 if __name__ == "__main__":
