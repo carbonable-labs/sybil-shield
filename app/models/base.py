@@ -7,7 +7,7 @@ class BaseModel(AbstractModel):
     def __init__(self, layer1, layer2):
         super().__init__(layer1, layer2)
 
-    def run(self):
+    def run(self, _):
         # Suspect nodes
         senders = set(node.get('sender') for node in self._layer1)
         recipients = set(node.get('recipient')
