@@ -44,6 +44,7 @@ Issues we are facing:
 - https://github.com/carbonable-labs/sybil-shield-front/pull/11
 - https://github.com/carbonable-labs/sybil-shield-front/pull/13
 - https://github.com/carbonable-labs/sybil-shield-front/pull/15
+- https://github.com/carbonable-labs/sybil-shield-front/pull/17
 
 ### Back-end pull requests
 
@@ -55,6 +56,11 @@ Issues we are facing:
 - https://github.com/carbonable-labs/sybil-shield/pull/10
 - https://github.com/carbonable-labs/sybil-shield/pull/12
 - https://github.com/carbonable-labs/sybil-shield/pull/14
+- https://github.com/carbonable-labs/sybil-shield/pull/16
+
+### Checkpoint alternative exploration
+
+- https://github.com/trangnv/checkpoint-briq/pull/2
 
 ## After the event
 
