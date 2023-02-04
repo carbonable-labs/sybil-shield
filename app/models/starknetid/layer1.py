@@ -1,8 +1,7 @@
 import asyncio
-from decimal import Decimal
-import time
 import json
 import sys
+
 from pathlib import Path
 
 from grpc import ssl_channel_credentials
@@ -10,12 +9,9 @@ from grpc.aio import secure_channel
 
 from apibara.protocol import StreamService
 from apibara.protocol.proto.stream_pb2 import DataFinality
-from apibara.starknet import Block, EventFilter, Filter, felt, TransactionFilter, starknet_cursor
-from apibara.starknet.filter import StateUpdateFilter, StorageDiffFilter
+from apibara.starknet import Block, EventFilter, Filter, felt, starknet_cursor
 
-ETH_DECIMALS = 18
-
-_DEN = Decimal(10**ETH_DECIMALS)
+DATA_PATH = (Path(__file__).parent / 'starknetid_l1.json').resolve()
 
 GRPC_CONFIG = json.dumps(
     {
@@ -34,33 +30,18 @@ GRPC_CONFIG = json.dumps(
 )
 
 
-path = Path("./briq_l2.json")
-
-l2data = []
-if path.exists():
-    with open(path, 'r') as fin:
-        l2data = json.load(fin)
-START = max([row.get('block') for row in l2data]) + 1 if l2data else 10_708
-print(START)
-
-
-input_path = Path("./briq.json")
 data = []
-if input_path.exists():
-    with open(input_path, 'r') as fin:
+if DATA_PATH.exists():
+    with open(DATA_PATH, 'r') as fin:
         data = json.load(fin)
-unique_nodes = list(set(tx.get('sender')
-                    for tx in data).union(tx.get('recipient') for tx in data))
-
-
-def to_decimal(amount: int) -> Decimal:
-    return Decimal(amount) / _DEN
+START = max([row.get('block') for row in data]) + 1 if data else 0
+print(START)
 
 
 async def main():
 
-    briqs_address = felt.from_hex(
-        "0x01435498bf393da86b4733b9264a86b58a42b31f8d8b8ba309593e5c17847672"
+    starknetid_address = felt.from_hex(
+        "0x05dbdedc203e92749e2e746e2d40a768d966bd243df04a6b712e222bc040a9af"
     )
 
     ether_address = felt.from_hex(
@@ -88,7 +69,7 @@ async def main():
     )
 
     table = {
-        felt.to_hex(briqs_address): 'BRIQ',
+        felt.to_hex(starknetid_address): 'STARKNET_ID',
         felt.to_hex(ether_address): 'ETH',
         felt.to_hex(usdc_address): 'USDC',
         felt.to_hex(usdt_address): 'USDT',
@@ -106,8 +87,9 @@ async def main():
 
     filter = (
         Filter()
-        .with_header(weak=False)
-        .add_event(EventFilter().with_from_address(ether_address).with_keys([transfer_key]))
+        .with_header(weak=True)
+        .add_event(EventFilter().with_from_address(starknetid_address).with_keys([transfer_key]))
+        # .add_event(EventFilter().with_from_address(ether_address).with_keys([transfer_key]))
         # .add_event(EventFilter().with_from_address(usdc_address).with_keys([transfer_key]))
         # .add_event(EventFilter().with_from_address(usdt_address).with_keys([transfer_key]))
         # .add_event(EventFilter().with_from_address(dai_address).with_keys([transfer_key]))
@@ -133,24 +115,20 @@ async def main():
                 block_number = block.header.block_number
                 print(block_number)
 
-                if block_number > 19_500:
+                if block_number > 19_560:
                     sys.exit(1)
 
                 for event_with_tx in block.events:
                     event = event_with_tx.event
-
-                    sender = felt.to_hex(event.data[0])
-                    recipient = felt.to_hex(event.data[1])
-
-                    if (sender not in unique_nodes and recipient not in unique_nodes) or (int(sender, 16) * int(recipient, 16) == 0):
-                        continue
-
                     tx = event_with_tx.transaction
 
                     time = block.header.timestamp.ToSeconds()
                     tx_hash = felt.to_hex(tx.meta.hash)
                     contract = felt.to_hex(event.from_address)
                     contract_name = table.get(contract)
+
+                    sender = felt.to_hex(event.data[0])
+                    recipient = felt.to_hex(event.data[1])
 
                     value = felt.to_int(event.data[2]) + (
                         felt.to_int(event.data[3]) << 128
@@ -168,17 +146,16 @@ async def main():
                     })
 
             data = []
-            if path.exists():
-                with open(path, 'r') as fin:
+            if DATA_PATH.exists():
+                with open(DATA_PATH, 'r') as fin:
                     data = json.load(fin)
-            with open(path, 'w') as fout:
+            with open(DATA_PATH, 'w') as fout:
                 data.extend(new)
                 json.dump(data, fout, indent=2)
 
+    with open(DATA_PATH, 'r') as fin:
+        data = json.load(fin)
+
 
 if __name__ == "__main__":
-    for i in range(20):
-        try:
-            asyncio.run(main())
-        except Exception:
-            time.sleep(10)
+    asyncio.run(main())
