@@ -1,8 +1,8 @@
 import asyncio
 from decimal import Decimal
-import time
 import json
 import sys
+import time
 from pathlib import Path
 
 from grpc import ssl_channel_credentials
@@ -33,21 +33,20 @@ GRPC_CONFIG = json.dumps(
     }
 )
 
-
-path = Path("./briq_l2.json")
+DATA_PATH_L2 = (Path(__file__).parent / 'starknetid_l2.json').resolve()
+DATA_PATH_L1 = (Path(__file__).parent / 'starknetid_l1.json').resolve()
 
 l2data = []
-if path.exists():
-    with open(path, 'r') as fin:
+if DATA_PATH_L2.exists():
+    with open(DATA_PATH_L2, 'r') as fin:
         l2data = json.load(fin)
-START = max([row.get('block') for row in l2data]) + 1 if l2data else 10_708
+START = max([row.get('block') for row in l2data]) + 1 if l2data else 10_554
 print(START)
 
 
-input_path = Path("./briq.json")
 data = []
-if input_path.exists():
-    with open(input_path, 'r') as fin:
+if DATA_PATH_L1.exists():
+    with open(DATA_PATH_L1, 'r') as fin:
         data = json.load(fin)
 unique_nodes = list(set(tx.get('sender')
                     for tx in data).union(tx.get('recipient') for tx in data))
@@ -168,10 +167,10 @@ async def main():
                     })
 
             data = []
-            if path.exists():
-                with open(path, 'r') as fin:
+            if DATA_PATH_L2.exists():
+                with open(DATA_PATH_L2, 'r') as fin:
                     data = json.load(fin)
-            with open(path, 'w') as fout:
+            with open(DATA_PATH_L2, 'w') as fout:
                 data.extend(new)
                 json.dump(data, fout, indent=2)
 
