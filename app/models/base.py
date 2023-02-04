@@ -1,5 +1,4 @@
 from app.models import AbstractModel
-from pprint import pprint
 
 
 class BaseModel(AbstractModel):
@@ -13,18 +12,22 @@ class BaseModel(AbstractModel):
         recipients = set(node.get('recipient')
                          for node in self._layer1 if int(node.get('sender'), 16) == 0)
         suspects = list(senders.union(recipients))
+        print(f"Suspects: {len(suspects)}")
 
         # Score
         txs = self._layer1 + self._layer2
         total_txs = [len([tx for tx in txs if tx['sender'] == suspect])
                      for suspect in suspects]
+        print(f"Total txs: {len(total_txs)}")
         internal_txs = [len([
             tx for tx in txs
             if (tx['sender'] == suspect and tx['recipient'] in suspects)
             # or (tx['recipient'] == suspect and tx['sender'] in suspects)
         ]) for suspect in suspects]
+        print(f"Internal txs: {len(internal_txs)}")
         scores = [num / den if den else 0 for num,
                   den in zip(internal_txs, total_txs)]
+        print(f"Scores: {len(scores)}")
 
         # Nodes
         nodes = [
@@ -35,6 +38,7 @@ class BaseModel(AbstractModel):
             # {'id': address, 'name': address, 'val': 0}
             for address, score in zip(suspects, scores)
         ]
+        print(f"Nodes: {len(nodes)}")
 
         # Links
         links = [
@@ -44,6 +48,7 @@ class BaseModel(AbstractModel):
             if tx.get('sender') in suspects
             and tx.get('recipient') in suspects
         ]
+        print(f"Links: {len(links)}")
         unique_links = list({
             int(link['source'], 16) + int(link['target'], 16): link
             for link in links
