@@ -3,7 +3,7 @@ import json
 
 
 class AbstractModel:
-    def __init__(self, layer1, layer2):
+    def __init__(self, layer1):
         self._blacklists = [
             # ETH
             int("0x049d36570d4e46f48e99674bd3fcc84644ddd6b96f7c741b1562b82f9e004dc7", 16),
@@ -20,16 +20,13 @@ class AbstractModel:
             # BRIQ
             int("0x01435498bf393da86b4733b9264a86b58a42b31f8d8b8ba309593e5c17847672", 16),
         ]
-        self._layer1 = layer1
-        self._layer2 = layer2
+        self._layer1 = layer1 #have to call self._layer1 instead of data
 
     def run(self):
         raise NotImplementedError
 
     @classmethod
-    def from_json(cls, layer1_path, layer2_path):
+    def from_json(cls, layer1_path):
         with open(layer1_path, 'r') as file_instance:
             layer1 = json.load(file_instance)
-        with open(layer2_path, 'r') as file_instance:
-            layer2 = json.load(file_instance)
-        return cls(layer1, layer2)
+        return cls(layer1)
