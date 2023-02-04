@@ -5,9 +5,12 @@ description = "Packages for Sybil Detection Software"
 authors = ["Marissa Posner"]
 
 [tool.poetry.dependencies]
-python = "^3.6"
+python = "^3.8,<3.11"
+flask = "^2.2.2"
+waitress = "^2.1.2"
 
 [tool.poetry.dev-dependencies]
+apibara = { version = "^0.6.0", extras = ["indexer"] }
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

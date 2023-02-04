@@ -1,5 +1,6 @@
 <div align="center">
   <h1 align="center">SybilShield</h1>
+  <img src="docs/images/sybil-shield.png" height="200">
   <h2 align="center">A solution for detecting and preventing sybil attacks on Starknet blockchain</h2>
   <br />
   <a href="https://github.com/carbonable-labs/sybil-shield/issues/new?assignees=&labels=bug&template=01_BUG_REPORT.md&title=bug%3A+">Report a Bug</a>
@@ -29,6 +30,20 @@ A Sybil attack is a type of attack where an attacker creates multiple fake ident
 SybilShield is implemented using Apibara technology to explore on-chain data, allowing it to detect and mitigate Sybil attacks by identifying and isolating fake identities.
 
 ## Getting Started
+
+- Install Python version management tool: [pyenv](https://github.com/pyenv/pyenv) or [asdf](https://github.com/asdf-vm/asdf)
+- Install `Python 3.9.14` using the Python version management tool and activate that version
+- Clone this repository
+- Verify the active Python version: `python -V`
+- [Install Poetry](https://python-poetry.org/docs/#installation) — a dependency manager
+- Create Python virtual environment in the project directory: `poetry env use 3.9`
+- Activate environment: `poetry shell`
+- Upgrade pip: `pip install --upgrade pip`
+- Install project dependencies: `poetry install`
+  - MacBook M1/M2: `To define`
+- Verify the setup by running tests: `poetry run test`
+- Export entrypoint: `export FLASK_APP=app`
+- Run the server: `poetry run flask run`
 
 ### Prerequisites
 
