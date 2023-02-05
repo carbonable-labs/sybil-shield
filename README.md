@@ -49,13 +49,10 @@ SybilShield is implemented using Apibara technology to explore on-chain data, al
 
 #### Typescript
 
-
-
 ## Roadmap
 
 See the [open issues](https://github.com/carbonable-labs/sybil-shield/issues/issues) for
 a list of proposed features (and known issues).
-
 
 
 ## Support
@@ -89,7 +86,7 @@ for being involved!
 ## Authors & contributors
 
 For a full list of all authors and contributors, see
-[the contributors page](https://github.com/carbonable-labs/sybil-shield/issues/contributors).
+[the contributors page](https://github.com/carbonable-labs/sybil-shield/graphs/contributors).
 
 ## Security
 
